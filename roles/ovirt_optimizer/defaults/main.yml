@@ -1,0 +1,8 @@
+ovirt_engine_pki_dir: /etc/pki/ovirt-engine
+ovirt_engine_fqdn: engine.localdomain
+
+ovirt_engine_rest_username: admin@internal
+ovirt_engine_rest_password:
+
+ovirt_optimizer_fqdn: optimizer.localdomain
+ovirt_optimizer_enable_debug_features: false

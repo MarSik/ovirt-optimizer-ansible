@@ -1,0 +1,19 @@
+- name: Create PKI directories
+  file:
+    name: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ ovirt_engine_pki_dir }}"
+    - "{{ ovirt_engine_pki_dir }}/certs"
+    - "{{ ovirt_engine_pki_dir }}/requests"
+
+- name: Create secured PKI directories
+  file:
+    name: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0700
+  with_items:
+    - "{{ ovirt_engine_pki_dir }}/keys"
+

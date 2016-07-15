@@ -1,0 +1,12 @@
+- name: Install ovirt-optimizer UI packages
+  yum:
+    name: ovirt-optimizer-ui
+    state: latest
+
+- name: Prepare ovirt-optimizer UI configuration
+  template:
+    src: ovirt-optimizer-config.json
+    dest: /etc/ovirt-engine/ui-plugins/ovirt-optimizer-config.json
+  notify: Restart engine
+
+

@@ -1,0 +1,10 @@
+- name: Restart webserver
+  service:
+    name: httpd
+    state: restarted
+
+- name: Restart optimizer
+  service:
+    name: ovirt-optimizer-jboss
+    state: restarted
+

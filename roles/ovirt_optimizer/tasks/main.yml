@@ -1,0 +1,51 @@
+- name: Install ovirt-optimizer packages
+  yum:
+    name: ovirt-optimizer-jboss
+    state: latest
+  notify: Restart optimizer
+
+- name: Install http server packages
+  yum:
+    name: httpd
+    state: latest
+  notify: Restart webserver
+
+- name: Install https server packages
+  yum:
+    name: mod_ssl
+    state: latest
+  notify: Restart webserver
+
+- name: Prepare ovirt-optimizer configuration
+  template:
+    src: ovirt-optimizer.properties
+    dest: /etc/ovirt-optimizer/ovirt-optimizer.properties
+    owner: root
+    group: jboss
+    mode: 0640
+  notify: Restart optimizer
+
+- name: Copy SSL certificate over
+  copy:
+    src: "{{ cert_file }}"
+    dest: "{{ ovirt_engine_pki_dir }}/certs/apache-optimizer.cer"
+
+- name: Copy SSL certificate authority over
+  copy:
+    src: "{{ ca_cert_file }}"
+    dest: "{{ ovirt_engine_pki_dir }}/apache-ca.pem"
+
+- name: Configure ovirt-optimizer to start automatically
+  service:
+    name: ovirt-optimizer-jboss
+    enabled: yes
+
+- name: Configure https proxy to automatically
+  service:
+    name: httpd
+    enabled: yes
+
+- name: Prepare firewall
+  command: echo TODO
+
+

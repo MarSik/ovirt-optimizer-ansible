@@ -1,0 +1,4 @@
+pki_dir: /etc/pki
+pki_key_dir: "{{ pki_dir }}/keys"
+pki_csr_dir: "{{ pki_dir }}/requests"
+pki_cert_dir: "{{ pki_dir }}/certs"

@@ -1,0 +1,25 @@
+---
+- hosts: optimizer 
+  name: SSL certificate for optimizer node
+  vars_files:
+    - config.yml
+  roles:
+    - ovirt_pki_structure
+    - { role: pki_cert_request, key_name: "{{ ovirt_optimizer_fqdn }}", pki_dir: "/etc/pki/ovirt-engine", pki_password: "supersecretpass" }
+
+- hosts: engine
+  name: SSL certificate signing and UI for optimizer
+  vars_files:
+    - config.yml
+  roles:
+    - ovirt_pki_structure
+    - { role: pki_sign_csr, fqdn: "{{ ovirt_optimizer_fqdn }}", csr_file: "pki/{{ ovirt_optimizer_fqdn }}.csr", key_name: "{{ ovirt_optimizer_fqdn }}", pki_dir: "/etc/pki/ovirt-engine", pki_ca_pem: "/etc/pki/ovirt-engine/apache-ca.pem" }
+    - ovirt_optimizer_ui
+
+- hosts: optimizer
+  name: Configuration of the optimizer node
+  vars_files:
+    - config.yml
+  roles:
+          - { role: ovirt_optimizer, ca_cert_file: "pki/apache-ca.pem", cert_file: "pki/{{ ovirt_optimizer_fqdn }}.cer" }
+
