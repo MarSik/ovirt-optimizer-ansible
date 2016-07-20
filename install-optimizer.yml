@@ -5,15 +5,17 @@
     - config.yml
   roles:
     - ovirt_pki_structure
-    - { role: pki_cert_request, key_name: "{{ ovirt_optimizer_fqdn }}", pki_dir: "/etc/pki/ovirt-engine", pki_password: "supersecretpass" }
+    - { role: pki_cert_request, pki_dir: "/etc/pki/ovirt-engine", pki_password: "{{ certificate_password }}", key_name: "{{ ovirt_optimizer_fqdn }}" }
 
 - hosts: engine
   name: SSL certificate signing and UI for optimizer
   vars_files:
     - config.yml
+  vars:
+    key_name: "{{ ovirt_optimizer_fqdn }}"
   roles:
     - ovirt_pki_structure
-    - { role: pki_sign_csr, fqdn: "{{ ovirt_optimizer_fqdn }}", csr_file: "pki/{{ ovirt_optimizer_fqdn }}.csr", key_name: "{{ ovirt_optimizer_fqdn }}", pki_dir: "/etc/pki/ovirt-engine", pki_ca_pem: "/etc/pki/ovirt-engine/apache-ca.pem" }
+    - { role: ovirt_sign_csr, fqdn: "{{ ovirt_optimizer_fqdn }}", csr_file: "pki/{{ ovirt_optimizer_fqdn }}.csr", key_name: "{{ ovirt_optimizer_fqdn }}" }
     - ovirt_optimizer_ui
 
 - hosts: optimizer

@@ -9,7 +9,6 @@
     chdir: "{{ pki_key_dir }}"
     creates: "{{ pki_key_dir }}/{{ key_name }}.pass"
 
-
 - name: Decrypt private key
   command: "openssl rsa -in '{{ key_name }}.pass' -passin 'pass:{{ pki_password }}' -out '{{ key_name }}.key'"
   args:

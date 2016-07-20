@@ -40,12 +40,27 @@
     name: ovirt-optimizer-jboss
     enabled: yes
 
-- name: Configure https proxy to automatically
+- name: Configure https proxy to start automatically
   service:
     name: httpd
     enabled: yes
 
-- name: Prepare firewall
-  command: echo TODO
+- name: Install firewalld
+  yum:
+    name: firewalld
+    state: latest
+
+- name: Enable firewalld
+  service:
+    name: firewalld
+    enabled: yes
+
+- name: Prepare firewall rules (enable HTTPS)
+  firewalld:
+    service: https
+    state: enabled
+    permanent: yes
+    immediate: yes
+
 
 

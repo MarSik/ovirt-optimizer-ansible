@@ -2,11 +2,22 @@
   yum:
     name: ovirt-optimizer-ui
     state: latest
+  when: not ovirt_engine_prefix
+  register: uipkg
+
+- name: Warn about developer mode
+  debug: msg="The ovirt-optimizer-ui was not installed. Please install it manually."
+  when: uipkg|skipped
+
+- name: Make sure the necessary configuration directory exists
+  file:
+    path: "{{ ovirt_engine_prefix }}/etc/ovirt-engine/ui-plugins"
+    state: directory
 
 - name: Prepare ovirt-optimizer UI configuration
   template:
     src: ovirt-optimizer-config.json
-    dest: /etc/ovirt-engine/ui-plugins/ovirt-optimizer-config.json
+    dest: "{{ ovirt_engine_prefix }}/etc/ovirt-engine/ui-plugins/ovirt-optimizer-config.json"
   notify: Restart engine
 
 

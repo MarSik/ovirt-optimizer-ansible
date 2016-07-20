@@ -1,0 +1,6 @@
+ovirt_engine_prefix:
+ovirt_pki_dir: "{{ ovirt_engine_prefix }}/etc/pki/ovirt-engine"
+ovirt_pki_key_dir: "{{ ovirt_pki_dir }}/keys"
+ovirt_pki_csr_dir: "{{ ovirt_pki_dir }}/requests"
+ovirt_pki_cert_dir: "{{ ovirt_pki_dir }}/certs"
+ovirt_pki_ca_pem: "{{ ovirt_pki_dir }}/apache-ca.pem"

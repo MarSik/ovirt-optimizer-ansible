@@ -2,4 +2,5 @@
   service:
     name: ovirt-engine
     state: restarted
+  when: ovirt_engine_prefix == ""
 

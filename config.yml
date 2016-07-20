@@ -1,6 +1,10 @@
+ovirt_engine_prefix:
+
 ovirt_engine_fqdn: engine.example.com
 ovirt_engine_rest_username: admin@internal
 ovirt_engine_rest_password: letmein
 
 ovirt_optimizer_fqdn: optimizer.example.com
+
+certificate_password: mysupersecretpw
 
