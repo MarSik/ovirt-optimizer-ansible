@@ -1,5 +1,7 @@
 ovirt_engine_pki_dir: /etc/pki/ovirt-engine
 ovirt_engine_fqdn: engine.localdomain
+ovirt_engine_port: 443
+ovirt_engine_protocol: https
 
 ovirt_engine_rest_username: admin@internal
 ovirt_engine_rest_password:

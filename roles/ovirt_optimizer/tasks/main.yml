@@ -16,6 +16,25 @@
     state: latest
   notify: Restart webserver
 
+- name: Configure a https proxy for optimizer
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  with_items:
+    - { src: 'apache-optimizer.conf', dest: '/etc/httpd/conf.d/z-ovirt-optimizer-proxy.conf' }
+  notify: Restart webserver
+
+- name: Configure https certificates
+  lineinfile:
+    dest: /etc/httpd/conf.d/ssl.conf
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items:
+    - { regexp: "^[ #]*SSLCertificateFile", line: "SSLCertificateFile {{ ovirt_engine_pki_dir }}/certs/{{ ovirt_optimizer_fqdn }}.cer" }
+    - { regexp: "^[ #]*SSLCertificateKeyFile", line: "SSLCertificateKeyFile {{ ovirt_engine_pki_dir }}/keys/{{ ovirt_optimizer_fqdn }}.key" }
+    - { regexp: "^[ #]*SSLCACertificateFile", line: "SSLCACertificateFile {{ ovirt_engine_pki_dir }}/apache-ca.pem" }
+  notify: Restart webserver
+
 - name: Prepare ovirt-optimizer configuration
   template:
     src: ovirt-optimizer.properties
@@ -28,22 +47,26 @@
 - name: Copy SSL certificate over
   copy:
     src: "{{ cert_file }}"
-    dest: "{{ ovirt_engine_pki_dir }}/certs/apache-optimizer.cer"
+    dest: "{{ ovirt_engine_pki_dir }}/certs/{{ ovirt_optimizer_fqdn }}.cer"
+  notify: Restart webserver
 
 - name: Copy SSL certificate authority over
   copy:
     src: "{{ ca_cert_file }}"
     dest: "{{ ovirt_engine_pki_dir }}/apache-ca.pem"
+  notify: Restart webserver
 
 - name: Configure ovirt-optimizer to start automatically
   service:
     name: ovirt-optimizer-jboss
     enabled: yes
+    state: started
 
 - name: Configure https proxy to start automatically
   service:
     name: httpd
     enabled: yes
+    state: started
 
 - name: Install firewalld
   yum:
