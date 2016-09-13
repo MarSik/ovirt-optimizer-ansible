@@ -8,10 +8,10 @@
     dest: "{{ ovirt_pki_csr_dir }}/{{ key_name }}.req"
 
 - name: Computed signing command
-  debug: msg="{{ ovirt_engine_prefix |default('/usr') }}/share/ovirt-engine/bin/pki-enroll-request.sh --name='{{ key_name }}' --subject='{{ ca.stdout |regex_replace('subject= (?P<co>/C=[^/]*/O=[^/]*)/.*', '\\g<co>') }}/CN={{ fqdn }}'"
+  debug: msg="{{ ovirt_engine_prefix |default('/usr', true) }}/share/ovirt-engine/bin/pki-enroll-request.sh --name='{{ key_name }}' --subject='{{ ca.stdout |regex_replace('subject= (?P<co>/C=[^/]*/O=[^/]*)/.*', '\\g<co>') }}/CN={{ fqdn }}'"
 
 - name: Sign certificate
-  command: "{{ ovirt_engine_prefix |default('/usr') }}/share/ovirt-engine/bin/pki-enroll-request.sh --name='{{ key_name }}' --subject='{{ ca.stdout |regex_replace('subject= (?P<co>/C=[^/]*/O=[^/]*)/.*', '\\g<co>') }}/CN={{ fqdn }}'"
+  command: "{{ ovirt_engine_prefix |default('/usr', true) }}/share/ovirt-engine/bin/pki-enroll-request.sh --name='{{ key_name }}' --subject='{{ ca.stdout |regex_replace('subject= (?P<co>/C=[^/]*/O=[^/]*)/.*', '\\g<co>') }}/CN={{ fqdn }}'"
   args:
     creates: "{{ ovirt_pki_cert_dir }}/{{ key_name }}.cer"
     chdir: "{{ ovirt_pki_dir }}"
