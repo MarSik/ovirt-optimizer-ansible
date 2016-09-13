@@ -78,6 +78,11 @@
     name: firewalld
     enabled: yes
 
+- name: Make sure firewalld bindings are present
+  yum:
+    name: python-firewall
+    state: latest
+
 - name: Prepare firewall rules (enable HTTPS)
   firewalld:
     service: https
