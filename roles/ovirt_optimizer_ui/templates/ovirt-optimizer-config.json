@@ -2,7 +2,7 @@
 
     // Custom configuration associated with the plugin (optional)
     // This overrides default configuration within descriptor, if any
-    "config": { "baseurl": "https://{{ ovirt_engine_fqdn }}/ovirt-optimizer/result/" },
+    "config": { "baseurl": "https://{{ ovirt_optimizer_fqdn }}/ovirt-optimizer/result/" },
 
     // Whether the plugin should be loaded on WebAdmin startup (optional)
     // Default value is true
