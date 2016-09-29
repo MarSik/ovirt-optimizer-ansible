@@ -25,11 +25,11 @@
   file:
     name: pki
     state: directory
-  connection: local
+  delegate_to: localhost
 
 - name: Fetch CSR
   fetch:
-    dest: pki
+    dest: pki/
     flat: yes
     src: "{{ pki_key_dir }}/{{ key_name }}.csr"
     fail_on_missing: yes
