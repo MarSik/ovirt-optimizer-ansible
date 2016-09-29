@@ -1,1 +1,3 @@
 ovirt_engine_pki_dir: /etc/pki/ovirt-engine
+ovirt_engine_pki_dir_permissions: 0700
+

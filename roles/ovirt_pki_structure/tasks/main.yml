@@ -13,7 +13,7 @@
     state: directory
     owner: root
     group: root
-    mode: 0700
+    mode: "{{ ovirt_engine_pki_dir_permissions }}"
   with_items:
     - "{{ ovirt_engine_pki_dir }}/keys"
 

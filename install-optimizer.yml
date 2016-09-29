@@ -14,7 +14,8 @@
   vars:
     key_name: "{{ ovirt_optimizer_fqdn }}"
   roles:
-    - ovirt_pki_structure
+    # The permissions should be 700, but then the websocket proxy does not work
+    - { role: ovirt_pki_structure, ovirt_engine_pki_dir_permissions: 0755 }
     - { role: ovirt_sign_csr, fqdn: "{{ ovirt_optimizer_fqdn }}", csr_file: "pki/{{ ovirt_optimizer_fqdn }}.csr", key_name: "{{ ovirt_optimizer_fqdn }}" }
     - ovirt_optimizer_ui
 
